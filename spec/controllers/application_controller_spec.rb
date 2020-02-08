@@ -34,7 +34,6 @@ describe ApplicationController do
         :email => "skittles@aol.com",
         :password => "rainbows"
       }
-      #binding.pry
       post '/signup', params
       expect(last_response.location).to include('/signup')
     end
@@ -393,7 +392,7 @@ describe ApplicationController do
         visit 'tweets/1'
 
         click_button "Delete Tweet"
-        
+
         expect(page.status_code).to eq(200)
         expect(Tweet.find_by(:content => "tweeting!")).to eq(nil)
       end

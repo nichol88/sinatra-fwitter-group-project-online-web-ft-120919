@@ -1,21 +1,27 @@
 <% if logged_in? %>
 <h1>Edit Tweet</h1>
 
+<% if @tweet.errors.any? %>
+<p>@tweet.errors.full_messages.to_sentence</p>
+<% end %>
+
 <form action="/tweets/<%= @tweet.id %>" method="post">
   <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="tweet[user_id]" value="<%= @tweet.user_id %>">
 
   Content:
   <input type="text" name="tweet[content]" id="content" value="<%= @tweet.content %>"><br>
-  Create Your Tweet:
+  Update Tweet:
   <input type="submit" name="submit" id="submit">
 
 </form>
 
-
+<% if @tweet.user_id == current_user.id %>
 <form action="/tweets/<%= @tweet.id %>" method="post">
   <input type="hidden" name="_method" value="delete">
   <input type="button" name="delete" value="Delete Tweet" id="Delete Tweet">
 </form>
+<% end %>
 
 <% else %>
   <h1> You Must Be Logged in to Make Tweets </h1>
