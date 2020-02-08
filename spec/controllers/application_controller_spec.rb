@@ -28,11 +28,13 @@ describe ApplicationController do
     end
 
     it 'does not let a user sign up without a username' do
+
       params = {
         :username => "",
         :email => "skittles@aol.com",
         :password => "rainbows"
       }
+      #binding.pry
       post '/signup', params
       expect(last_response.location).to include('/signup')
     end
@@ -112,6 +114,7 @@ describe ApplicationController do
       }
       post '/login', params
       get '/logout'
+      #click_button 'logout'
       expect(last_response.location).to include("/login")
     end
 
@@ -208,6 +211,8 @@ describe ApplicationController do
         visit '/tweets/new'
         fill_in(:content, :with => "tweet!!!")
         click_button 'submit'
+
+
 
         user = User.find_by(:username => "becky567")
         tweet = Tweet.find_by(:content => "tweet!!!")
@@ -386,7 +391,9 @@ describe ApplicationController do
         fill_in(:password, :with => "kittens")
         click_button 'submit'
         visit 'tweets/1'
+
         click_button "Delete Tweet"
+        
         expect(page.status_code).to eq(200)
         expect(Tweet.find_by(:content => "tweeting!")).to eq(nil)
       end
